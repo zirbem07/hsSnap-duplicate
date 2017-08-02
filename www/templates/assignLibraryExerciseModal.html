@@ -1,0 +1,91 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">{{title}}</h1>
+    <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content >
+    <div class="row" style="padding-bottom: 0px !important">
+      <video class="col" preload="auto" poster="{{videoToAssign.S3ImgURL}}" ng-src="{{videoToAssign.S3URL}}" height="200px" controls="controls" onended="videoEnded(this)" webkit-playsinline></video>
+    </div>
+    <div class="list padding">
+      <form name="libraryExerciseForm">
+        <div class="row">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Exercise Name</span>
+            <input required type="text" placeholder="Exercise Name" ng-model="videoToAssign.name">
+          </label>
+        </div>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Description</span>
+          <textarea type="text" placeholder="Description" ng-model="videoToAssign.description" rows="4"  autocorrect="off" autocapitalize="off" spellcheck="false"></textarea>
+        </label>
+        <label class="item item-input item-select" style="margin-top: 8px">
+          <div class="input-label">
+            Frequency
+          </div>
+          <select ng-model="videoToAssign.days">
+            <option selected>Every Day</option>
+            <option >Week Days</option>
+            <option>Every Other Day</option>
+          </select>
+        </label>
+        <span class="spacer" style="height: 10px"></span>
+        <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Reps</span>
+                <input type="tel" ng-model="videoToAssign.reps" name="reps" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input ng-model="videoToAssign.upperReps" ng-disabled="!libraryExerciseForm.reps.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Sets</span>
+                <input type="tel" required ng-model="videoToAssign.sets" name="sets" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input ng-model="videoToAssign.upperSets" ng-disabled="!libraryExerciseForm.sets.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Per Day</span>
+                <input name="perDay" ng-model="videoToAssign.perDay" required class="ng-empty" type="tel" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input  ng-model="videoToAssign.upperPerDay" ng-disabled="!libraryExerciseForm.perDay.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <!--<div class="row">
+          <label class="item item-input item-floating-label col">
+            <span class="input-label">Reps</span>
+            <input type="number"  placeholder="Reps" ng-model="videoToAssign.reps"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          </label>
+          <label class="item item-input item-floating-label col">
+            <span class="input-label">Sets</span>
+            <input type="tel" placeholder="Sets" ng-model="videoToAssign.sets"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          </label>
+        </div>-->
+        <div class="row">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Timer (sec)</span>
+            <input type="tel" placeholder="Timer" ng-model="videoToAssign.hold" placeholder="0"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          </label>
+          <!--<label class="item item-input item-floating-label">
+            <span class="input-label">Times Per Day</span>
+            <input type="tel" placeholder="Times Per Day" ng-model="videoToAssign.perDay"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          </label>-->
+        </div>
+        
+        <button ng-disabled="libraryExerciseForm.$invalid" class="button button-energized button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" ng-click="assignLibraryExercise()">
+          {{title}}
+        </button>
+      </form>
+    </div>
+
+  </ion-content>
+</ion-modal-view>

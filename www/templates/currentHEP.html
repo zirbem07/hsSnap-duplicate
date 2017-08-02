@@ -1,0 +1,64 @@
+<ion-view view-title="Current HEP">
+    <ion-nav-buttons side="right">
+        <button class="button button-clear" style="box-shadow: none; text-transform: none;" ng-show="currentHEP[0]" ng-click="toggleDelete()">
+            {{editButtonText}}
+        </button>
+    </ion-nav-buttons>
+    <ion-content ng-class="{expanded:$scope.isExpanded}" class="padding has-footer">
+        <div class="row item-button-right">
+            <h4 class="no-border no-padding-bottom" style="padding-top: 15px">{{currentPatient.FirstName }} {{ currentPatient.LastName}}</h4>
+            <div class="buttons" ng-if="currentPatient.feedback.array.length > 0">
+                <button id="notification-button" clear ng-click="showFeedback()">
+                    <i class="icon ion-email" style="font-size: 30px; margin-top: 0px; color: #03A9F3">
+                        <span ng-if="currentPatient.feedback.Unseen > 0" class="badge" id="notifications-badge">{{currentPatient.feedback.Unseen}}</span>
+                    </i>           
+                </button>
+            </div>
+        </div>
+        <ion-list show-delete="showDelete" class="animate-blinds">
+            <ion-item class="item item-icon-left item-text-wrap" ng-if="!currentHEP[0]">
+                <i class="icon ion-alert-circled energized"></i>
+                <h2> No Exercises Assigned </h2>
+                <p>Press the video button in the bottom right to film your first exercise.</p>
+            </ion-item>
+            <ion-item ng-repeat="hep in currentHEP track by $index" class="item item-thumbnail-left item-text-wrap" style="min-height: 90px;" ng-click="updateExercise(hep)">
+                <ion-delete-button style="box-shadow: none; padding: 0px" ng-click="deleteExercise(hep, $index)" class="ion-ios-trash-outline"></ion-delete-button>
+                <img  style="border-radius: 0px" ng-src="{{hep.Img}}">
+                <div class="row">
+                    <h2>{{hep.Name}}</h2>
+                </div>
+                <div class="row"  style="text-align: center;">
+                    <div class="item col" style="border: 0;  padding: 0px" >
+                        <h3 style="margin-top: 5px; margin-bottom: 0px; text-align: center">{{hep.Sets}}</h3>
+                        <p style="margin-top: 5px; margin-bottom: 0px; text-align: center">Sets</p>
+                    </div>
+                    <div class="item col" style="border: 0;  padding: 0px"  ng-if="hep.Reps">
+                        <h3 style="margin-top: 5px; margin-bottom: 0px; text-align: center">{{hep.Reps}}</h3>
+                        <p style="margin-top: 5px; margin-bottom: 0px; text-align: center">Reps</p>
+                    </div>
+                    <div class="item col" style="border: 0;  padding: 0px" ng-if="hep.Hold">
+                        <h3 style="margin-top: 5px; margin-bottom: 0px; text-align: center">{{hep.Hold}}</h3>
+                        <p style="margin-top: 5px; margin-bottom: 0px; text-align: center">Timer</p>
+                    </div>
+                    <div class="item  col" style="border: 0;  padding: 0px">
+                        <h3 style="margin-top: 5px; margin-bottom: 0px; text-align: center">{{hep.Frequency}}</h3>
+                        <p style="margin-top: 5px; margin-bottom: 0px; text-align: center">Per Day</p>
+                    </div>
+                </div>
+            </ion-item>
+            
+        </ion-list>
+    </ion-content>
+    <div class="bar bar-footer bar-royal">
+         <div class="buttons buttons-left">
+                <button class="button button-fab" ng-click="assignFromLibrary()" style="background-color: #ffc900">
+                    <i class="icon ion-images"></i>
+                </button>
+            </div>
+            <div class="buttons buttons-right">
+                <button class="button button-fab" ng-click="filmExercise()" style="background-color: #ffc900">
+                    <i class="icon ion-videocamera"></i>
+                </button>
+            </div>
+    </div>
+</ion-view>

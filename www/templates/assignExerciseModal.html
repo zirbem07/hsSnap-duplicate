@@ -1,0 +1,92 @@
+ <ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title">{{title}}</h1>
+        <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeModal()">Cancel</button>
+    </ion-header-bar>
+    <ion-content>
+      <div class="row" style="padding-bottom: 0px !important">
+          <img src="{{img}}" class="col center">  
+      </div>  
+      <div class="list padding">
+        <form name="exerciseForm" novalidate>
+        <div class="row">
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Exercise Name</span>
+                <input required type="text" placeholder="Exercise Name" ng-model="exercise.name" >
+            </label>
+        </div>
+        <label class="item item-input item-floating-label">
+            <span class="input-label">Description</span>
+            <textarea type="text" placeholder="Description" ng-model="exercise.description" rows="4" spellcheck="false"></textarea>
+        </label>
+        <label class="item item-input item-select" style="margin-top: 8px">
+            <div class="input-label">
+                Frequency
+            </div>
+            <select ng-model="exercise.days">
+                <option selected>Every Day</option>
+                <option >Week Days</option>
+                <option>Every Other Day</option>
+            </select>
+        </label>
+        <span class="spacer" style="height: 10px"></span>
+         <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Reps</span>
+                <input type="tel" ng-model="exercise.reps" name="reps" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input ng-model="exercise.upperReps" ng-disabled="!exerciseForm.reps.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Sets</span>
+                <input type="tel" required ng-model="exercise.sets" name="sets" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input ng-model="exercise.upperSets" ng-disabled="!exerciseForm.sets.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <div class="row">
+            <label class="item item-input" style="padding-left: 8px">
+                <span class="input-label">Per Day</span>
+                <input name="perDay" ng-model="exercise.perDay" required class="ng-empty" type="tel" style="border-bottom: 1px solid #555">
+            </label>
+            <label class="item item-input">
+                <span class="input-label" style="width: 0%">to</span>
+                <input  ng-model="exercise.upperPerDay" ng-disabled="!exerciseForm.perDay.$valid" type="tel"  style="border-bottom: 1px solid #555">
+            </label>
+        </div>
+        <!--<div class="row">
+            <label class="item item-input item-floating-label col">
+                <span class="input-label">Reps</span>
+                <input type="tel" pattern="[0-9\-]+" placeholder="Reps" ng-model="exercise.reps"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </label>
+            <label class="item item-input item-floating-label col">
+                <span class="input-label">Sets</span>
+                <input type="tel" placeholder="Sets" ng-model="exercise.sets"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </label>
+        </div>
+        <div class="row">
+            
+            <label class="item item-input item-floating-label">
+                <span class="input-label">Times Per Day</span>
+                <input type="tel" placeholder="Times Per Day" ng-model="exercise.perDay"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+            </label>
+        </div>-->
+        <label class="item item-input item-floating-label">
+                <span class="input-label">Timer (sec)</span>
+                <input type="tel" placeholder="Timer" ng-model="exercise.hold"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+        </label>
+        
+        <button ng-disabled="exerciseForm.$invalid" class="button button-energized button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" ng-click="assignExercise()">
+          {{title}}
+        </button>
+      </form>
+      </div>
+      
+    </ion-content>
+</ion-modal-view>

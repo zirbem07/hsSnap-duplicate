@@ -1,0 +1,26 @@
+<ion-view class="login"  hide-nav-bar="true">
+    <ion-content scroll="true">
+        <div style="margin-top: 30%; margin-bottom: 10%;">
+            <img width="90%" ng-src="{{logoImg}}" style="margin: auto; display: block">
+        </div>
+        <form novalidate ng-submit="login()">
+            <div class="list" style="margin: 0px 10px 0px 10px">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Email</span>
+                    <input type="email" placeholder="Email" ng-model="loginData.username"  autocomplete="on" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </label>
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Password</span>
+                    <input type="password"  ng-model="loginData.password" placeholder="Password">
+                </label>
+                <ion-checkbox style="padding-left: 60px;"class="checkbox-royal" ng-model="loginData.rememberMe"><small>Remember Me</small></ion-checkbox>
+                <button class="button button-royal button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" type="submit">
+                    Login
+                </button>
+            </div>
+        </form>
+        <div class="row">
+            <a class="col col-center button button-royal button-clear button-block col-center" ng-click="forgotPassword()">Forgot Password</a>
+        </div>
+  </ion-content>
+</ion-view>

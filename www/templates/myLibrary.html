@@ -1,0 +1,33 @@
+<ion-view view-title="My Library">
+    <!--<ion-nav-buttons side="right">-->
+        <!--<button class="button button-clear" style="box-shadow: none; text-transform: none;" ng-show="myLibrary[0]" ng-click="toggleDelete()">-->
+            <!--{{editButtonText}}-->
+        <!--</button>-->
+    <!--</ion-nav-buttons>-->
+    <ion-content  ng-class="{expanded:$scope.isExpanded}" class="padding has-footer">
+        <ion-list show-delete="showDelete">
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="searchTerm">
+            </label>
+            <ion-item class="item item-icon-left item-text-wrap" ng-if="!myLibrary[0]">
+                <i class="icon ion-alert-circled energized"></i>
+                <h2> No Library Videos </h2>
+                <p  ng-show="status == 'add'">Please back out of the patient profile and select Manage My Library in the side nav to film your first library exercise.</p>
+                <p  ng-show="status == 'manage'">Press the plus button in the bottom right to film your first library exercise.</p>
+            </ion-item>
+            <ion-item ng-repeat="item in myLibrary | filter: searchTerm track by $index" class="item item-thumbnail-left item-text-wrap" style="min-height: 90px;" ng-click="exerciseModal(item, $index)">
+              <img  style="border-radius: 0px" ng-src="{{item.S3ImgURL}}">
+              <h2><strong>{{item.Name}}</strong></h2>
+              <p ng-bind="item.Description | limitTo: 75"></p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+    <div class="bar bar-footer bar-royal">
+      <div class="buttons buttons-right" ng-show="status !== 'add'">
+        <button class="button button-fab" ng-click="showConfirm()" style="background-color: #ffc900">
+          <i class="icon ion-plus-round"></i>
+        </button>
+      </div>
+    </div>
+</ion-view>

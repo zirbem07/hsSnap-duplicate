@@ -1,0 +1,39 @@
+<ion-view view-title="Select Patient">
+    <ion-content ng-class="{expanded:$scope.isExpanded}">
+        <div class="im-wrapper">
+            <h4 class="no-border no-padding-bottom">Patient List</h4>
+        </div>
+        <ion-list >
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Search" ng-model="search.term">
+            </label>
+            <ion-item class="item item-icon-left item-text-wrap" ng-if="!PatientList[0]">
+                <i class="icon ion-alert-circled energized"></i>
+                <h2> No Patients </h2>
+                <p >Press the plus button in the upper right to add your first patient.</p>
+            </ion-item>
+            <ion-item ng-repeat="patient in PatientList | filter: {document: {FirstName: search.term}}  track by $index" nav-clear menu-close class="item-button-right"  ng-click="toCurrentHEP( patient.document, patient.document.PatientID)">
+            <!-- ng-click="filmExercise(patient.document.PatientID)">-->
+                <span ng-if="patient.document.feedback.Unseen > 0" class="badge badge-assertive" style="left: 10px; width: 24px">{{patient.document.feedback.Unseen}}</span>
+                <h2 ng-if="patient.document.feedback.Unseen > 0" style="margin-left: 24px">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
+                <h2 ng-if="!patient.document.feedback.Unseen > 0">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
+                <p ng-if="patient.document.Activated">Last Active &nbsp
+                    <ng-pluralize count="{{daysAgo(patient.document.LastActive)}}"
+                        when="{'0': 'Today', '1': 'Yesterday', 'other': '{{daysAgo(patient.document.LastActive)}} Days Ago'}">
+                    </ng-pluralize>
+                </p>
+                <p ng-if="!patient.document.Activated" style="font-weight: 300; color: #FF5252"> Not Activated</p>
+                <a class="button button-clear button-dark icon ion-ios-more" style="margin-top: 8px; font-weight: 300" ng-click="showActionSheet(patient.document.FirstName, patient.document.LastName, $index)"></a>
+                <!--<i class="icon ion-videocamera muted"></i>-->
+            </ion-item>
+            <ion-item ng-repeat="patient in PatientRequests track by $index" nav-clear menu-close class="item-button-right text-center" style="background-color: lightgray">
+            <!-- ng-click="filmExercise(patient.document.PatientID)">-->
+                <h2>{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
+                <p style="font-weight: 300; color: #FF5252"> Has requested you as their therapist</p>
+                <a class="button button-clear button-dark icon ion-ios-more" style="margin-top: 8px; font-weight: 300" ng-click="showShareActionSheet(patient, $index)"></a>
+              <!--<i class="icon ion-videocamera muted"></i>-->
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

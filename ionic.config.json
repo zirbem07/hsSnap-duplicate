@@ -1,0 +1,8 @@
+{
+  "name": "hcSnap",
+  "app_id": "837bbe79",
+  "type": "ionic1",
+  "watchPatterns": [
+    "scss/**/*"
+  ]
+}

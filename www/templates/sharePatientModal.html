@@ -1,0 +1,20 @@
+ <ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title" style="text-align: center">Share Patient</h1>
+        <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeModal()">Cancel</button>
+    </ion-header-bar>
+    <ion-content >
+      <form name="sharePatientForm" novalidate>
+        <div class="list padding">
+            <div class="row">
+                <label class="item item-input item-floating-label">
+                    <input  name="email" required type="email" placeholder="Enter Email Address to Share With" ng-model="sharedEmail"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </label>
+            </div>
+            <button ng-disabled="sharePatientForm.$invalid" class="button button-energized button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" ng-click="sharePatient(sharedEmail)">
+                Share Patient
+            </button>
+        </div>
+      </form>
+    </ion-content>
+</ion-modal-view>

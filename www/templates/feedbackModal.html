@@ -1,0 +1,15 @@
+<ion-modal-view>
+    <ion-header-bar>
+            <h1 class="title">Feedback</h1>
+            <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeFeedbackModal()">Close</button>
+        </ion-header-bar>
+    <ion-content>
+        <ion-list>
+            <ion-item ng-repeat="feedback in currentPatient.feedback.array | orderBy: feedback.document.Timestamp | reverse track by $index" class="item-text-wrap">
+                <h3>{{feedback.document.ExerciseName}}</h3>
+                <p>{{feedback.document.Message}}</p>
+                <span>{{feedback.document.Timestamp}}</span>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-modal-view>
