@@ -7,10 +7,10 @@
     <ion-content ng-class="{expanded:$scope.isExpanded}" class="padding has-footer">
         <div class="row item-button-right">
             <h4 class="no-border no-padding-bottom" style="padding-top: 15px">{{currentPatient.FirstName }} {{ currentPatient.LastName}}</h4>
-            <div class="buttons" ng-if="currentPatient.feedback.array.length > 0">
+            <div class="buttons">
                 <button id="notification-button" clear ng-click="showFeedback()">
                     <i class="icon ion-email" style="font-size: 30px; margin-top: 0px; color: #03A9F3">
-                        <span ng-if="currentPatient.feedback.Unseen > 0" class="badge" id="notifications-badge">{{currentPatient.feedback.Unseen}}</span>
+                        <span ng-if="currentPatient.MessagesForTherapist > 0" class="badge" id="notifications-badge">{{currentPatient.MessagesForTherapist}}</span>
                     </i>           
                 </button>
             </div>

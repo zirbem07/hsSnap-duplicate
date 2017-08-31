@@ -15,9 +15,9 @@
             </ion-item>
             <ion-item ng-repeat="patient in PatientList | filter: {document: {FirstName: search.term}}  track by $index" nav-clear menu-close class="item-button-right"  ng-click="toCurrentHEP( patient.document, patient.document.PatientID)">
             <!-- ng-click="filmExercise(patient.document.PatientID)">-->
-                <span ng-if="patient.document.feedback.Unseen > 0" class="badge badge-assertive" style="left: 10px; width: 24px">{{patient.document.feedback.Unseen}}</span>
-                <h2 ng-if="patient.document.feedback.Unseen > 0" style="margin-left: 24px">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
-                <h2 ng-if="!patient.document.feedback.Unseen > 0">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
+                <span ng-if="patient.document.MessagesForTherapist > 0" class="badge badge-assertive" style="left: 10px; width: 24px">{{patient.document.MessagesForTherapist}}</span>
+                <h2 ng-if="patient.document.MessagesForTherapist > 0" style="margin-left: 24px">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
+                <h2 ng-if="!patient.document.MessagesForTherapist > 0">{{patient.document.FirstName}} {{ patient.document.LastName}}</h2>
                 <p ng-if="patient.document.Activated">Last Active &nbsp
                     <ng-pluralize count="{{daysAgo(patient.document.LastActive)}}"
                         when="{'0': 'Today', '1': 'Yesterday', 'other': '{{daysAgo(patient.document.LastActive)}} Days Ago'}">

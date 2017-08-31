@@ -196,6 +196,39 @@
 
         }
 
+        $scope.sendActivationCode = function(){
+            var userCode = "";
+            var possible = "0123456789";
+            var newEmail = $scope.editPatient.Email;
+            var newName = $scope.editPatient.FirstName;
+
+            for( var i=0; i < 6; i++ )
+                userCode += possible.charAt(Math.floor(Math.random() * possible.length));
+            Patient
+                .emailPatient({email: newEmail, firstName: newName}, userCode)
+            ionicToast.show('Email sent with new activation code', 'top', false, 3000);
+        }
+
+        $scope.sendPasswordReset = function(){
+            var confirmPopup = $ionicPopup.confirm({
+                title: 'Reset Patient Password',
+                okType: 'button-assertive',
+                template: 'Are you sure you want to send this patient a password reset? Their current password will be removed and they must reset it to log in'
+            });
+
+            confirmPopup.then(function(res) {
+                if(res) {
+                    Patient.verifyUser($scope.editPatient.Email)
+                    .then(function(response){
+                        Patient.forgotPassword($scope.editPatient.Email)
+                        ionicToast.show('Email sent to reset their password', 'top', false, 3000);
+                    })
+                } else {
+                    console.log('You are not sure');
+                }
+            });
+        }
+
         $scope.closeEditModal = function() {
             $scope.editPatient = {};
             $scope.editPatientModal.hide();

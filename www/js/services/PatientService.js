@@ -595,6 +595,97 @@ app.factory('Patient', function($http, $httpParamSerializerJQLike, $q, Session, 
       return $http(req)
 
 
+    },
+
+      getMessages: function(patientID){
+        console.log(patientID);
+      var queryParams = JSON.stringify({
+        "filter": {
+          "PatientID": {
+            "type": "eq",
+            "value": patientID
+          }
+        },
+        "per_page": 500,
+        "full_document": true,
+        "schema_id": ID[Session.user.attributes.AccountType].MessageSchema
+      });
+
+      var defer = $q.defer();
+      $http({
+        method: 'POST',
+        url: 'https://api.truevault.com/v1/vaults/' + ID[Session.user.attributes.AccountType].MessageVault + '/search',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'Authorization': 'Basic ' + btoa(Session.user.access_token + ':'),
+        },
+        data: $httpParamSerializerJQLike({
+          search_option: btoa(queryParams)
+        })
+      }).then(function successCallback(response) {
+        var messages = response.data.data.documents;
+        var messageArray = [];
+        messages.forEach(function(messageData){
+          var message = JSON.parse(atob(messageData.document))
+          messageArray.push(message);
+        })
+        defer.resolve(messageArray);
+      }, function errorCallback(error) {
+        defer.reject();
+      });
+      return defer.promise;
+    },
+
+    sendMessage: function(patientID, message){
+      var theData = {
+        PatientID: patientID,
+        Timestamp: new Date().toString('MMM dd hh:mm tt'),
+        Title: "",
+        Message: message,
+        From: 'therapist',
+        ClinicID: Session.user.attributes.ClinicID
+      }
+      var newData = JSON.stringify(theData);
+
+      return $http({
+        method: 'POST',
+        url: 'https://api.truevault.com/v1/vaults/' + ID[Session.user.attributes.AccountType].MessageVault + '/documents',
+        headers: {
+          'Authorization': 'Basic ' + btoa(Session.user.access_token + ':'),
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        data: $httpParamSerializerJQLike({
+          document: btoa(newData),
+          schema_id: ID[Session.user.attributes.AccountType].MessageSchema
+        })
+      })
+    },
+    sendPush: function(patientToken){
+
+            const headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NDk1ZWRhZi00OGY2LTQ1NjItYTFiNi1jNTBlY2NkY2UzMTcifQ.zOgUM1zB3NAE4KWk0LnZ9UGRaaZ3tPoPZgovz_YbhLs'
+            }
+
+        console.log(patientToken);
+        var message = "A therapist has sent you a message";
+        var tok = [patientToken];
+        var profile = 'production_push';
+
+        return $http({
+          method: 'POST',
+          url: 'https://api.ionic.io/push/notifications',
+          headers: headers,
+          data: {
+                    "tokens": tok,
+                    "profile": profile, 
+                     "notification": {
+                        "message": message
+                    }
+                }
+        })
+
     }
+
   }
 });

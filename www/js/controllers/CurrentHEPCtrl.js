@@ -1,5 +1,5 @@
 app.controller('CurrentHEPCtrl', function ($rootScope, $scope, $state, $stateParams, $ionicNavBarDelegate, $cordovaCapture, $timeout,
-        currentHEP, ionicMaterialMotion, ionicToast, Session, Exercise, $ionicModal, $ionicLoading, Patient, Analytics) {
+        currentHEP, ionicMaterialMotion, ionicToast, Session, Exercise, $ionicModal, $ionicLoading, $ionicScrollDelegate, Patient, Analytics, $ionicPush) {
 
     $scope.$parent.showHeader();
     $scope.$parent.clearFabs();
@@ -8,6 +8,21 @@ app.controller('CurrentHEPCtrl', function ($rootScope, $scope, $state, $statePar
     $scope.currentPatient = Session.currentPatient;
     $scope.editButtonText = "Edit";
     $scope.formSubmitted = false;
+
+    $scope.getDeviceToken = function(){
+        $ionicPush.register().then(function(t) {
+            return $ionicPush.saveToken(t, 'ignore_user');
+        }).then(function(t) {
+            if(t.token){
+                console.log('Token saved:', t.token);
+                $scope.currentPatient.TherapistDeviceToken = t.token;
+                Patient.updatePatient($scope.currentPatient.document_id, $scope.currentPatient)
+                .then(function(response){
+                    
+                })
+            }
+        });
+    }();
 
     console.log($scope.currentPatient)
 
@@ -452,20 +467,24 @@ app.controller('CurrentHEPCtrl', function ($rootScope, $scope, $state, $statePar
         }).then(function(modal) {
             $scope.feedbackModal = modal;
             $scope.feedbackModal.show();
-            //mark feedback as seen
-            angular.forEach($scope.currentPatient.feedback.array, function(feedback){
-                if(feedback.document.Seen == false){
-                    feedback.document.Seen = true;
-                    Patient.markFeedback(feedback)
-                }
-            })
-            $scope.currentPatient.feedback.Unseen = 0;
             
+            var messageCount;
+            if($scope.currentPatient.MessagesForPatient){
+                messageCount = MessagesForPatient + 1;
+            }
+            else{
+                messageCount = 0;
+            }
+            $scope.updateSeenMessages(0, messageCount);
+            $timeout(function() {
+                $ionicScrollDelegate.scrollBottom(true);
+            }, 300);
         });
     }
 
     $scope.closeFeedbackModal = function() {
         $scope.feedbackModal.hide();
+        $scope.pushSent = false;
     }
 
     $scope.blinds = function() {
@@ -478,5 +497,92 @@ app.controller('CurrentHEPCtrl', function ($rootScope, $scope, $state, $statePar
     };
 
     $scope.blinds();
+
+//messaging stuff
+
+
+$scope.hideTime = true;
+
+$scope.pushSent = false;
+
+isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
+
+  $scope.sendMessage = function() {
+
+    $scope.messages.push({
+      PatientID: $scope.currentPatient.PatientID,
+        Timestamp: new Date().toString('MMM dd hh:mm tt'),
+        Title: "",
+        Message: $scope.data.message,
+        From: 'therapist',
+        ClinicID: Session.user.attributes.ClinicID
+    });
+
+    Patient
+        .sendMessage($scope.currentPatient.PatientID, $scope.data.message)
+        .then( function(success) {
+            console.log(success)
+            if($scope.pushSent == false){
+                Patient.sendPush($scope.currentPatient.deviceToken)
+                $scope.pushSent = true;
+            }
+        }, function(error) {
+            console.log(error);
+        })
+    
+
+    var messageCount;
+    if($scope.currentPatient.MessagesForPatient){
+        messageCount = $scope.currentPatient.MessagesForPatient + 1;
+    }
+    else{
+        messageCount = 1;
+    }
+    $scope.updateSeenMessages(0, messageCount);
+
+    delete $scope.data.message;
+    $ionicScrollDelegate.scrollBottom(true);
+
+  };
+
+
+  $scope.inputUp = function() {
+    if (isIOS){
+        $scope.data.keyboardHeight = 216;
+    }
+    $timeout(function() {
+      $ionicScrollDelegate.scrollBottom(true);
+    }, 300);
+
+  };
+
+  $scope.inputDown = function() {
+    if (isIOS) $scope.data.keyboardHeight = 0;
+    $ionicScrollDelegate.resize();
+  };
+
+  $scope.closeKeyboard = function() {
+    // cordova.plugins.Keyboard.close();
+  };
+
+    Patient
+        .getMessages($scope.currentPatient.PatientID)
+        .then( function(success) {
+            $scope.messages = success;
+        }, function(error) {
+            console.log(error);
+        })
+
+    $scope.updateSeenMessages = function(messagesForTherapst, messagesForPatient){
+        $scope.currentPatient.MessagesForTherapist = messagesForTherapst;
+        $scope.currentPatient.MessagesForPatient = messagesForPatient;
+
+        Patient.updatePatient($scope.currentPatient.document_id, $scope.currentPatient)
+            .then(function(response){
+                
+            })
+    }
+
+  $scope.data = {};
 
 });

@@ -5,10 +5,11 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-var app = angular.module('hcSnap', ['ionic', 'starter.controllers', 'starter.services', 'ionic-material', 'ionic-toast',  'ngCordova', 'ngResource'])
+var app = angular.module('hcSnap', ['ionic', 'ionic.cloud', 'starter.controllers', 'starter.services', 'ionic-material', 'ionic-toast',  'ngCordova', 'ngResource'])
 
 app.run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -20,10 +21,29 @@ app.run(function($ionicPlatform) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
   });
 })
 
-app.config(function($stateProvider, $urlRouterProvider, $sceDelegateProvider) {
+app.config(function($stateProvider, $urlRouterProvider, $sceDelegateProvider, $ionicCloudProvider) {
+
+    $ionicCloudProvider.init({
+        "core": {
+          "app_id": "837bbe79"
+        },
+        "push": {
+          "sender_id": "225122598147",
+          "pluginConfig": {
+            "ios": {
+              "badge": true,
+              "sound": true
+            },
+            "android": {
+              "iconColor": "#343434"
+            }
+          }
+        }
+      });
 
   $sceDelegateProvider.resourceUrlWhitelist([
     // Allow same origin resource loads.

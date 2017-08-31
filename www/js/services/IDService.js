@@ -7,7 +7,7 @@
         PatientSchema: '345baa11-1b82-4123-bce5-be40efa0dd6b',
 
         MessageVault: '52c70421-67ab-4ac2-9fc9-b173e3a4833c',
-        MessageSchema: 'aa82770d-10fe-4c9c-9c46-7fa5e89c59e3',
+        MessageSchema: 'b6f3b8f5-1161-4759-b97c-0f8b6c900e3a',
 
         LogVault: 'b1043752-6010-4afb-997b-731f312a4e19',
         LogSchema: '8ec4d6ed-70dd-470a-9bc7-10e8a37e04fc',
