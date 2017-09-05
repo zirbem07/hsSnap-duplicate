@@ -1,0 +1,30 @@
+<ion-modal-view>
+  <ion-header-bar>
+    <h1 class="title">{{title}}</h1>
+    <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeModal()">Cancel</button>
+  </ion-header-bar>
+  <ion-content >
+    <div class="row" style="padding-bottom: 0px !important">
+      <img src="{{img}}" class="col center">
+    </div>
+    <div class="list padding">
+      <form name="exerciseForm" novalidate>
+        <div class="row">
+          <label class="item item-input item-floating-label">
+            <span class="input-label">Exercise Name</span>
+            <input required type="text" placeholder="Exercise Name" ng-model="exercise.name"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+          </label>
+        </div>
+        <span class="spacer" style="height: 10px"></span>
+        <label class="item item-input item-floating-label">
+          <span class="input-label">Description</span>
+          <textarea type="text" placeholder="Description" ng-model="exercise.description" rows="4" ></textarea>
+        </label>
+        <button ng-disabled="exerciseForm.$invalid" class="button button-energized button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" ng-click="createExercise()">
+          {{title}}
+        </button>
+      </form>
+    </div>
+
+  </ion-content>
+</ion-modal-view>

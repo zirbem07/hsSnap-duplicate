@@ -1,0 +1,46 @@
+ <ion-modal-view>
+    <ion-header-bar>
+        <h1 class="title" style="text-align: center">Add Patient</h1>
+        <button class="button button-clear" style="color: red; margin-left: 3px; padding-bottom: 10px; text-transform: none; max-width: 70px; min-width: 70px; font-size: 14pt" ng-click="closeModal()">Cancel</button>
+    </ion-header-bar>
+    <ion-content >
+      <form name="addPatientForm" novalidate>
+        <div class="list padding">
+            <div class="row">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">First Name</span>
+                    <input  name="firstName" required type="text" placeholder="First Name" ng-model="newPatient.firstName"  autocorrect="off" spellcheck="false">
+                </label>
+            </div>
+            <div class="row">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Last Name</span>
+                    <input name="lastName" required type="text" placeholder="Last Name" ng-model="newPatient.lastName"  autocorrect="off"  spellcheck="false">
+                </label>
+            </div>
+            <div class="row">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Email</span>
+                    <input name="email" required type="email" placeholder="Email" ng-model="newPatient.email"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </label>
+            </div>
+            <div class="row">
+                <label class="item item-input item-floating-label">
+                    <span class="input-label">Phone</span>
+                    <input name="tel" placeholder="(920)4601234" type="tel" ng-maxlength="10" placeholder="" ng-model="newPatient.tel"  autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false">
+                </label>
+            </div>
+            <span class="row" style="height: 20px"></span>
+            <div class="padding">
+                <span ng-show="addPatientForm.firstName.$error.required">* First Name is required</span><br />
+                <span ng-show="addPatientForm.lastName.$error.required">* Last Name is required</span><br />
+                <span ng-show="addPatientForm.email.$error.required">* Email is required</span><br />
+                <span ng-show="addPatientForm.email.$invalid && !addPatientForm.email.$pristine">* Email address is not valid</span>
+            </div>
+            <button ng-disabled="addPatientForm.$invalid" class="button button-energized button-block button-raised" data-ink-color="#0288D1" style="margin-top: 20px" data-ink-opacity=".8" ng-click="createPatient()">
+                Create Patient
+            </button>
+        </div>
+      </form>
+    </ion-content>
+</ion-modal-view>
