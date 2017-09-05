@@ -509,40 +509,41 @@ isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
   $scope.sendMessage = function() {
 
-    $scope.messages.push({
-      PatientID: $scope.currentPatient.PatientID,
-        Timestamp: new Date().toString('MMM dd hh:mm tt'),
-        Title: "",
-        Message: $scope.data.message,
-        From: 'therapist',
-        ClinicID: Session.user.attributes.ClinicID
-    });
+    if($scope.data.message && $scope.data.message != ""){
+        $scope.messages.push({
+        PatientID: $scope.currentPatient.PatientID,
+            Timestamp: new Date().toString('MMM dd hh:mm tt'),
+            Title: "",
+            Message: $scope.data.message,
+            From: 'therapist',
+            ClinicID: Session.user.attributes.ClinicID
+        });
 
-    Patient
-        .sendMessage($scope.currentPatient.PatientID, $scope.data.message)
-        .then( function(success) {
-            console.log(success)
-            if($scope.pushSent == false){
-                Patient.sendPush($scope.currentPatient.deviceToken)
-                $scope.pushSent = true;
-            }
-        }, function(error) {
-            console.log(error);
-        })
-    
+        Patient
+            .sendMessage($scope.currentPatient.PatientID, $scope.data.message)
+            .then( function(success) {
+                console.log(success)
+                if($scope.pushSent == false){
+                    Patient.sendPush($scope.currentPatient.deviceToken)
+                    $scope.pushSent = true;
+                }
+            }, function(error) {
+                console.log(error);
+            })
+        
 
-    var messageCount;
-    if($scope.currentPatient.MessagesForPatient){
-        messageCount = $scope.currentPatient.MessagesForPatient + 1;
+        var messageCount;
+        if($scope.currentPatient.MessagesForPatient){
+            messageCount = $scope.currentPatient.MessagesForPatient + 1;
+        }
+        else{
+            messageCount = 1;
+        }
+        $scope.updateSeenMessages(0, messageCount);
+
+        delete $scope.data.message;
+        $ionicScrollDelegate.scrollBottom(true);
     }
-    else{
-        messageCount = 1;
-    }
-    $scope.updateSeenMessages(0, messageCount);
-
-    delete $scope.data.message;
-    $ionicScrollDelegate.scrollBottom(true);
-
   };
 
 
