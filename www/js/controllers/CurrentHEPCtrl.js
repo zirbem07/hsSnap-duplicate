@@ -508,8 +508,11 @@ $scope.pushSent = false;
 isIOS = ionic.Platform.isWebView() && ionic.Platform.isIOS();
 
   $scope.sendMessage = function() {
-
+    $scope.data.message = $scope.data.message.replace(/\uD83C[\uDF00-\uDFFF]|\uD83D[\uDC00-\uDE4F]/, "");    
+    
     if($scope.data.message && $scope.data.message != ""){
+
+
         $scope.messages.push({
         PatientID: $scope.currentPatient.PatientID,
             Timestamp: new Date().toString('MMM dd hh:mm tt'),
