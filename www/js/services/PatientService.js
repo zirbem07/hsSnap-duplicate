@@ -662,7 +662,7 @@ app.factory('Patient', function($http, $httpParamSerializerJQLike, $q, Session, 
     },
     sendPush: function(patientToken){
 
-            const headers = {
+            var headers = {
                 'Content-Type': 'application/json',
                 'Authorization': 'Bearer ' + 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiI4NDk1ZWRhZi00OGY2LTQ1NjItYTFiNi1jNTBlY2NkY2UzMTcifQ.zOgUM1zB3NAE4KWk0LnZ9UGRaaZ3tPoPZgovz_YbhLs'
             }

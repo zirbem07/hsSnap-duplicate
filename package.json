@@ -4,6 +4,7 @@
     "description": "hcSnap",
     "dependencies": {
         "@ionic/cloud": "^0.16.0",
+        "bluebird": "^3.5.0",
         "cordova-android": "^6.2.3",
         "cordova-ios": "^4.4.0",
         "cordova-plugin-compat": "^1.1.0",
